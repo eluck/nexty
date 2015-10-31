@@ -1,0 +1,79 @@
+<head>
+  <title>shower-viewer</title>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1, maximum-scale=1">
+</head>
+
+
+
+<template name="loginPage">
+  <div class="container login-view">
+      <div class="jumbotron">
+        <h1>Shower viewer</h1>
+        <p class="lead">
+          A remote control for your presentation
+        </p>
+        <p class="next-lead">
+          On your laptop:
+        </p>
+        <ol>
+          <li>Create a presentation with <a href="http://shwr.me" target="_blank">Shower.js</a> and include
+            <a href="https://raw.githubusercontent.com/eluck/sho.io/no-sign-in/shower-controller.js" target="_blank">
+              shower-controller.js</a>
+            in it;
+          </li>
+          <li>Host the presentation online (i.e. on github pages for free);</li>
+          <li>Paste your presentation's URL here and click Go!</li>
+        </ol>
+        <div>
+          {{#unless urlSpinner}}
+            <input type="url" class="form-control url-input" id="hosted-presentation-url"
+                   placeholder="Paste a hosted presentation URL here">
+            <div class="btn btn-success js-btn-url">Go!</div>
+          {{else}}
+            {{> spinner}}
+          {{/unless}}
+        </div>
+        <p class="next-lead">
+          On your phone:
+        </p>
+        <ol>
+          <li>Open this page on your phone;</li>
+          <li>Enter the pin-code below and click Go!</li>
+          <li>Switch slides of the presentation with swipes and pinches.</li>
+        </ol>
+        <div class="pin-code-input-wrapper">
+          <input type="number" class="form-control pin-code-input" id="showing-presentation-code"
+                 placeholder="Enter pin-code here">
+          <div class="btn btn-success js-btn-pin-code">Go!</div>
+        </div>
+      </div>
+
+      <p class="footer">
+        &copy; Evgeny Lukianchikov, 2015
+      </p>
+
+    </div> <!-- /container -->
+</template>
+
+
+
+<template name="wait">
+  <div class="container" id="wait-view">
+    <h1 class="center-block">Shower viewer <small>A remote control for javascript presentations</small></h1>
+    {{> spinner}}
+  </div>
+</template>
+
+
+
+<template name="spinner">
+  <div class="spinner">
+    <div class="rect1"></div>
+    <div class="rect2"></div>
+    <div class="rect3"></div>
+    <div class="rect4"></div>
+    <div class="rect5"></div>
+  </div>
+</template>
