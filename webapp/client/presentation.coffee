@@ -17,7 +17,7 @@ class PresentationControl
 
 
   go: (action) =>
-    return unless action in ['next', 'prev', 'zoomIn', 'zoomOut']
+    return unless action in ['next', 'prev', 'zoomIn', 'zoomOut', 'last', 'first']
     @iframe.contentWindow.postMessage "nexty-#{action}", '*'
     Meteor.call 'clearPendingAction', @control.pinCode
 

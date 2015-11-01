@@ -32,15 +32,17 @@ Template.control.onRendered ->
 
   @hammer.on "strongSwipeleft", (ev) ->
     window.navigator?.vibrate? [140]
+    Meteor.call 'go', control.pinCode, name: 'last'
 
   @hammer.on "strongSwiperight", (ev) ->
     window.navigator?.vibrate? [140]
+    Meteor.call 'go', control.pinCode, name: 'first'
 
   @hammer.on "strongSwipeup", (ev) ->
-    window.navigator?.vibrate? [140]
+#    window.navigator?.vibrate? [140]
 
   @hammer.on "strongSwipedown", (ev) ->
-    window.navigator?.vibrate? [140]
+#    window.navigator?.vibrate? [140]
 
   @hammer.on "pinchin", (ev) ->
     return unless ev.eventType == Hammer.INPUT_END

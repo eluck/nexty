@@ -20,7 +20,7 @@ Meteor.methods
     console.log 'go pinCode:', pinCode, 'action:', action
     control = Control.findOne pinCode: pinCode
     throw new Meteor.Error 'Control not found' unless control
-    if action.name in ['next', 'prev', 'zoomIn', 'zoomOut']
+    if action.name in ['next', 'prev', 'zoomIn', 'zoomOut', 'last', 'first']
       return Control.update control._id, $set: pendingAction: action.name
 
 
