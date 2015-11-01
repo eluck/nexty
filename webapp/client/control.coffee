@@ -2,9 +2,9 @@ Template.control.onRendered ->
   element = document.getElementById 'pattern-lock'
   control = Control.findOne()
 
-  @hammer = new Hammer element
-  @hammer.get('pinch').set enable: true
-  @hammer.get('swipe').set velocity: 0.2
+  @hammer = new Hammer.Manager element
+  @hammer.add new Hammer.Swipe velocity: 0.2
+  @hammer.add new Hammer.Pinch()
 
   @hammer.on "swipeleft", (ev) ->
     window.navigator?.vibrate? [30]
