@@ -3,24 +3,52 @@ Template.control.onRendered ->
   control = Control.findOne()
 
   @hammer = new Hammer.Manager element
-  @hammer.add new Hammer.Swipe velocity: 0.2
-  @hammer.add new Hammer.Pinch()
+  usualSwipe = new Hammer.Swipe event: 'usualSwipe', velocity: 0.2, pointers: 1, direction: Hammer.DIRECTION_HORIZONTAL
+  strongSwipe = new Hammer.Swipe event: 'strongSwipe', velocity: 0.2, pointers: 3
+  strongPan = new Hammer.Pan event: 'strongPan', pointers: 3
+  pinch = new Hammer.Pinch threshold: 0.3
+  @hammer.add [strongSwipe, usualSwipe, strongPan, pinch]
 
-  @hammer.on "swipeleft", (ev) ->
+  strongSwipe.recognizeWith strongPan
+  usualSwipe.requireFailure pinch
+
+  @hammer.on "strongPanstart", (ev) ->
+    usualSwipe.set enable: false
+    pinch.set enable: false
+
+  @hammer.on "strongPanend", (ev) ->
+    setTimeout ->
+      usualSwipe.set enable: true
+      pinch.set enable: true
+    , 50
+
+  @hammer.on "usualSwipeleft", (ev) ->
     window.navigator?.vibrate? [30]
     Meteor.call 'go', control.pinCode, name: 'next'
 
-  @hammer.on "swiperight", (ev) ->
-    window.navigator?.vibrate? [30, 10, 30]
+  @hammer.on "usualSwiperight", (ev) ->
+    window.navigator?.vibrate? [30]
     Meteor.call 'go', control.pinCode, name: 'prev'
 
+  @hammer.on "strongSwipeleft", (ev) ->
+    window.navigator?.vibrate? [140]
+
+  @hammer.on "strongSwiperight", (ev) ->
+    window.navigator?.vibrate? [140]
+
+  @hammer.on "strongSwipeup", (ev) ->
+    window.navigator?.vibrate? [140]
+
+  @hammer.on "strongSwipedown", (ev) ->
+    window.navigator?.vibrate? [140]
+
   @hammer.on "pinchin", (ev) ->
-    return unless ev.eventType == 4
-    window.navigator?.vibrate? [30, 10, 30]
+    return unless ev.eventType == Hammer.INPUT_END
+    window.navigator?.vibrate? [30]
     Meteor.call 'go', control.pinCode, name: 'zoomOut'
 
   @hammer.on "pinchout", (ev) ->
-    return unless ev.eventType == 4
+    return unless ev.eventType == Hammer.INPUT_END
     window.navigator?.vibrate? [30]
     Meteor.call 'go', control.pinCode, name: 'zoomIn'
 
