@@ -27,4 +27,8 @@ if [ "`git status -s`" ] ; then
 fi
 
 
+#ensure we got docker vm running and accessible
+docker-machine start dev ; eval `docker-machine env dev`
+
+
 docker build -f webapp/Dockerfile -t eluck/nexty ./webapp
