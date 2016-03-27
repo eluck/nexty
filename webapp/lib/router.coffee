@@ -1,6 +1,6 @@
 FlowRouter.route '/',
   action: ->
-    BlazeLayout.render 'loginPage'
+    BlazeLayout.render 'layout', main: "loginPage", analytics: "analytics"
 
 
 
@@ -13,8 +13,8 @@ FlowRouter.route '/presentation/:presentationId',
   action: (params) ->
     @waitComputation = Tracker.autorun ->
       entries = [Presentations.findOne(params.presentationId), Control.findOne(presentationId: params.presentationId)]
-      return BlazeLayout.render 'wait' unless entries.every (entry) -> entry
-      BlazeLayout.render 'presentation'
+      return BlazeLayout.render 'layout', main: 'wait', analytics: 'analytics' unless entries.every (entry) -> entry
+      BlazeLayout.render 'layout', main: 'presentation', analytics: 'analytics'
 
 
   triggersExit: [
@@ -31,8 +31,8 @@ FlowRouter.route '/control/:pinCode',
 
   action: (params) ->
     @waitComputation = Tracker.autorun ->
-      return BlazeLayout.render 'wait' unless Control.findOne pinCode: params.pinCode
-      BlazeLayout.render 'control'
+      return BlazeLayout.render 'layout', main: 'wait', analytics: 'analytics' unless Control.findOne pinCode: params.pinCode
+      BlazeLayout.render 'layout', main: 'control', analytics: 'analytics'
 
 
   triggersExit: [
